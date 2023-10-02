@@ -1,4 +1,9 @@
-// swap3.c
+/**
+ * @file swap3.c
+ * @brief This code attempts to swap the values of u and t but fails because it does not update the value of u, which is why t and u contain the same values after swap 3.
+ * @date 2023-10-01
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 

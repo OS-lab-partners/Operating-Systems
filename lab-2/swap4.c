@@ -1,4 +1,9 @@
-// swap4.c
+/**
+ * @file swap4.c
+ * @brief This code successfully swaps the values of u and t by using a place-holder variable, k, to facilitate switching their values without any data loss.
+ * @date 2023-10-01
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -6,9 +11,8 @@ void swap4 (int * a, int * b)
 {
   int k = * a;
   * a = * b;
-  * b = * k;
+  * b = k;
 }
-
 
 int main (int argc ,char * * argv)
 {

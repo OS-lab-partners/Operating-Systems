@@ -1,3 +1,9 @@
+/**
+ * @file example1.c
+ * @brief This code prints the different representations of the variable c.
+ * @date 2023-10-01
+ */
+
 #include <stdio.h>
 int main ()
 {

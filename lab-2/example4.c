@@ -1,3 +1,9 @@
+/**
+ * @file example4.c
+ * @brief This file creates a space in memory for an integer and character name. It prints the information when we call it through variables.
+ * @date 2023-10-01
+ */
+
 #include <stdio.h>
  
 int main()

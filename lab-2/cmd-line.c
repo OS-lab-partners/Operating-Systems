@@ -1,3 +1,9 @@
+/**
+ * @file cmd-line.c
+ * @brief This program used argc and argv to access the command line argument. You can pass the parameters through by typing them in the terminal after calling the file. It runs a loop down to zero depending on the length of the first row [1][i] by incrementing  i which cycles through the column of row one. 
+ * @date 2023-10-01
+ */
+
 /*****************************************************
 Command - line syntax : Passing arguments to a command.
 int main(int argc, char *argv[]);

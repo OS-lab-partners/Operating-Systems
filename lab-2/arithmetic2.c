@@ -1,4 +1,9 @@
-// arithmetic2.c
+/**
+ * @file arithmetic2.c
+ * @brief The code in this program stores 3 arrays and then calculates the differences of addresses of elements in each array and prints the results.
+ * @date 2023-10-01
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 int main (int argc ,char * * argv)

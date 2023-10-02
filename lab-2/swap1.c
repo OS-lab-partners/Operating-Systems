@@ -1,4 +1,9 @@
-// swap1.c
+/**
+ * @file swap1.c
+ * @brief This code passes the values of the variables to a function that swaps the values of the variables. However, the values of u and t are not changed since we pass the variable values to a function where it cannot change the values of the original variables that were declared outside of the function.
+ * @date 2023-10-01
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 void swap1 (int a , int b)

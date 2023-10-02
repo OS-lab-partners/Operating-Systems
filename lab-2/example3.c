@@ -1,3 +1,9 @@
+/**
+ * @file example3.c
+ * @brief This code prints the value stored in x as well as the address of the variable x. Then the program prints the value using the memory location of x. Then the program changes the value of x using the memory location and prints it. Then x is assigned the value of x + 1.5 and the value of x is transferred to the value of y.
+ * @date 2023-10-01
+ */
+
 #include <stdio.h>
 void main()
 {

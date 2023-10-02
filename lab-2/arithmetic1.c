@@ -1,4 +1,9 @@
-// arithmetic1.c
+/**
+ * @file arithmetic1.c
+ * @brief This code declares 3 different arrays; one array holds integers, one array holds characters, and the last array holds doubles. The program then prints the first values in each array, followed by the second value held in each array, and then the third and fourth values in each array as well.
+ * @date 2023-10-01
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 int main (int argc ,char * * argv)
