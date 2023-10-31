@@ -32,10 +32,20 @@ class Process {
 
 public class lab4 {
     public static void main(String args[]) {
+        Scanner input = new Scanner(System.in);
+        int q;
+        System.out.print("Enter a value for time quantum: ");
+        q = input.nextInt();
         Queue<Process> processQueue = new LinkedList<>();
         processQueue = getUserInput();
         // sort process arrival time
         processQueue = sortProcesses(processQueue);
+
+        // will simulate FCFS
+        fcfs(processQueue);
+
+        // round robin
+        roundRobin(processQueue, q);
     }
 
     public static Queue<Process> getUserInput() {
@@ -50,7 +60,7 @@ public class lab4 {
             System.out.print("\nProcess number must be between 0 and 20: ");
             numProcesses = input.nextInt();
         }
-        
+
         for(int i = 0; i < numProcesses; i++) {
                 System.out.print("Enter arrival time for P" + (i + 1) + ": ");
                 arrival = input.nextInt();
@@ -85,8 +95,16 @@ public class lab4 {
         return sortedQueue;
     }
 
+    //will simulate FCFS
+    public static void fcfs(Queue<Process> processQueue) {
+
+    }
     
-    
+    //will simulate roundrobin
+    // q is time quantum
+    public static void roundRobin(Queue<Process> processQueue, int q) {
+        
+    }
     
 }
 
