@@ -49,10 +49,10 @@ public class lab4 {
         while(numProcesses < 0 || numProcesses > 20) {
             System.out.print("\nProcess number must be between 0 and 20: ");
             numProcesses = input.nextInt();
-            
         }
+        
         for(int i = 0; i < numProcesses; i++) {
-                System.out.print("\nEnter arrival time for P" + (i + 1) + ": ");
+                System.out.print("Enter arrival time for P" + (i + 1) + ": ");
                 arrival = input.nextInt();
                 System.out.print("Enter burst time for P" + (i + 1) + ": ");
                 burst = input.nextInt();
