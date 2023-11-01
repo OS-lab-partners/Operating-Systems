@@ -3,20 +3,28 @@
 
 // used for process queue
 import java.util.Queue;
+import java.util.Random;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.io.*;
 
+/*
+ * The Process class definition
+ */
 class Process {
+
+    // Declare Process class variables
     String name;
     int arrivalTime;
     int burstTime;
     int waitTime;
     int termTime;
 
+    // Process constructor
     public Process(String n, int arrival, int burst) {
         name = n;
         arrivalTime = arrival;
@@ -32,49 +40,111 @@ class Process {
 
 public class lab4 {
     public static void main(String args[]) {
+        
+        System.out.println("\n************************************** PROCESS SCHEDULING SIMULATION **************************************\n");
+
+        Queue<Process> processQueue = new LinkedList<Process>();
+
+        System.out.println("SELECT AN OPTION");
+        System.out.println("1) Load processes from file");
+        System.out.println("2) Enter your own");
+
         Scanner input = new Scanner(System.in);
-        int q;
-        System.out.print("Enter a value for time quantum: ");
-        q = input.nextInt();
-        Queue<Process> processQueue = new LinkedList<>();
-        processQueue = getUserInput();
+        int choice = input.nextInt();
+
+        while(choice < 1 || choice > 2) {
+            System.out.print("\nSelect option 1 or 2");
+            choice = input.nextInt();
+        }
+
+        switch (choice){
+            case 1:
+                processQueue = loadByFile();
+                break;
+            case 2:
+                processQueue = getUserInput();
+                break;
+        }
+
         // sort process arrival time
         processQueue = sortProcesses(processQueue);
 
         // will simulate FCFS
-        fcfs(processQueue);
+        FCFS(processQueue);
 
         // round robin
-        roundRobin(processQueue, q);
+        roundRobin(processQueue);
+
+        input.close();
     }
 
-    public static Queue<Process> getUserInput() {
-        Queue<Process> queue = new LinkedList();
-        int numProcesses = 0;
+    public static Queue<Process> loadByFile() {
+        
+        Queue<Process> queue = new LinkedList<>();
         int arrival;
         int burst;
+        String file = "input.txt";
+        int i = 0;
+
+        try (Scanner scanner = new Scanner(new File(file))) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] nums = line.split(" ");
+                arrival = Integer.parseInt(nums[0]);
+                burst = Integer.parseInt(nums[1]);
+                Process process = new Process("P"+i, arrival, burst);
+                queue.offer(process);
+                i++;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return queue;
+    }
+
+    /*
+     * Prompts user for number of processes and randomly generates arrival and burst times
+     */
+    public static Queue<Process> getUserInput() {
+              
+        int numProcesses;
+        int arrival;
+        int burst;
+
         Scanner input = new Scanner(System.in);
         System.out.print("How many processes need to be entered: ");
         numProcesses = input.nextInt();
+
         while(numProcesses < 0 || numProcesses > 20) {
             System.out.print("\nProcess number must be between 0 and 20: ");
             numProcesses = input.nextInt();
         }
 
-        for(int i = 0; i < numProcesses; i++) {
-                System.out.print("Enter arrival time for P" + (i + 1) + ": ");
-                arrival = input.nextInt();
-                System.out.print("Enter burst time for P" + (i + 1) + ": ");
-                burst = input.nextInt();
-                queue.add(new Process("P" + (i + 1), arrival, burst));
-                System.out.println("------------------");
-            }
+        Queue<Process> queue = new LinkedList<>();
+
+        System.out.println("\nRandomly generating arrival & burst times . . .");
+
+        Random random = new Random();
+
+        for (int i = 0; i < numProcesses; i++) {
+            // Generate random arrival and burst times for each process
+            arrival = random.nextInt(100);
+            burst = random.nextInt(50);
+
+            // Create a new Process and add it to the queue
+            Process process = new Process("P"+i, arrival, burst);
+            queue.offer(process);
+        }
+
         input.close();
         return queue;
     }
 
+    /*
+     * Sorts processes by arrival time
+     */
     public static Queue<Process> sortProcesses(Queue<Process> queue) {
-        Queue<Process> temp = new LinkedList();
 
         // convert the Queue to a List
         List<Process> processList = new ArrayList<>(queue);
@@ -88,7 +158,7 @@ public class lab4 {
         // convert the sorted list back to a queue
         Queue<Process> sortedQueue = new LinkedList<>(processList);
 
-        // DEBUGGING
+        // continue to print queue head until queue is empty
         while (!sortedQueue.isEmpty()) {
             System.out.println(sortedQueue.poll());
         }
@@ -96,13 +166,12 @@ public class lab4 {
     }
 
     //will simulate FCFS
-    public static void fcfs(Queue<Process> processQueue) {
+    public static void FCFS(Queue<Process> processQueue) {
 
     }
     
     //will simulate roundrobin
-    // q is time quantum
-    public static void roundRobin(Queue<Process> processQueue, int q) {
+    public static void roundRobin(Queue<Process> processQueue) {
         
     }
     
