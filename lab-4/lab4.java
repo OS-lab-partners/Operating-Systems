@@ -1,7 +1,6 @@
 // COSC 439-003
 // FCFC and RR scheduling algorithms
 
-// used for process queue
 import java.util.Queue;
 import java.util.Random;
 import java.util.LinkedList;
@@ -34,7 +33,7 @@ class Process {
     }
 
     public String toString() {
-        return name + " - arrival time: " + arrivalTime + " & burst time: " + burstTime;
+        return name + " - arrival time = " + arrivalTime + ", burst time = " + burstTime;
     }
 }
 
@@ -42,7 +41,6 @@ public class lab4 {
    
 
     public static void main(String args[]) {
-        System.out.println("Current working directory: "+new File(".").getAbsolutePath());
 
         System.out.println(
                 "\n************************************** PROCESS SCHEDULING SIMULATION **************************************\n");
@@ -50,22 +48,16 @@ public class lab4 {
         Queue<Process> processQueue = new LinkedList<Process>();
 
         Scanner input = new Scanner(System.in);
-        int choice = 0;
+        int choice;
 
-        System.out.println("SELECT AN OPTION");
+        System.out.println("SELECT AN OPTION\n");
         System.out.println("1) Load processes from file");
         System.out.println("2) Enter your own");
-        System.out.println("Please Enter 1 or 2");
 
-        if (input.hasNextInt()) {
-            choice = input.nextInt();
-        } else {
-            input.next();
-            System.out.println("Invalid input. Please Enter \"1\" for option 1 or \"2\" for option 2");
-        }
+        choice = input.nextInt();
 
         while (choice < 1 || choice > 2) {
-            System.out.print("\nSelect option 1 or 2");
+            System.out.print("\nPlease enter 1 or 2\n");
             choice = input.nextInt();
         }
 
@@ -78,38 +70,62 @@ public class lab4 {
                 break;
         }
 
-        // sort process arrival time
+        System.out.println("\nProcesses loaded:\n");
+        for (Process p : processQueue) {
+            System.out.println(p);
+        }
+
+        // sort processes in order of their arrival time
         processQueue = sortProcesses(processQueue);
 
-        // will simulate FCFS
-        FCFS(processQueue);
-
-        // round robin
-        roundRobin(processQueue);
-
+        System.out.println("\nSELECT A SCHEDULING ALGORITHM:\n");
+        System.out.println("1) First Come First Serve (FCFS)");
+        System.out.println("2) Round Robin\n");
+    
+        choice = input.nextInt();
+        while(choice < 1 || choice > 2){
+            System.out.println("\nPlease enter 1 or 2\n");
+            choice = input.nextInt();
+        }
+    
+        switch (choice) {
+            case 1:
+                FCFS(processQueue);
+                break;
+            case 2:
+                roundRobin(processQueue);
+                break;
+        }
+        
+        System.out.println("\nEnd of process queue.\n");
         input.close();
     }
 
     public static Queue<Process> loadByFile() {
+        
+        System.out.println("\nLoading file . . .");
 
         Queue<Process> queue = new LinkedList<>();
-        // int arrival;
-        // int burst;
-        // String file =
-        // "/Users/novoachampion/Documents/GitHub/Operating-Systems/lab-4/file/input.txt";
+
+        int arrival;
+        int burst;
         String file = "input.txt";
-        int i = 0;
+
+        // set the process no.
+        int i = 1;
 
         try (Scanner scanner = new Scanner(new File(file))) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
+                // Read ints delineated by spaces
                 String[] nums = line.split(" ");
-                int arrival = Integer.parseInt(nums[0]);
-                int burst = Integer.parseInt(nums[1]);
+                arrival = Integer.parseInt(nums[0]);
+                burst = Integer.parseInt(nums[1]);
                 Process process = new Process("P" + i, arrival, burst);
                 queue.offer(process);
                 i++;
             }
+            scanner.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -122,39 +138,28 @@ public class lab4 {
      * times
      */
     public static Queue<Process> getUserInput() {
-        Scanner input = new Scanner(System.in);
-        System.out.print("How many processes need to be entered (between 0 and 20): ");
+        
         int numProcesses = 0;
-        // int arrival;
-        // int burst;
+        int arrival;
+        int burst;
 
-        if (input.hasNextInt()) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("\nHow many processes do you need (between 0 and 20): \n");
+        numProcesses = input.nextInt();
+
+        while (numProcesses < 1 || numProcesses >= 20) {
+            System.out.print("\nMust be a number greater than zero and less than 20: \n");
             numProcesses = input.nextInt();
-        } else {
-            input.next();
-            System.out.println("Invalid input. Please enter a number (between 0 and 20: ");
-        }
-
-        while (numProcesses < 0 || numProcesses > 20) {
-            System.out.print("\nProcess number must be between 0 and 20: ");
-            if (input.hasNextInt()) {
-                numProcesses = input.nextInt();
-            } else {
-                input.next();
-                System.out.println("Invalid input. Please enter a number (between 0 and 20: ");
-            }
         }
 
         Queue<Process> queue = new LinkedList<>();
-
-        System.out.println("\nRandomly generating arrival & burst times . . .");
 
         Random random = new Random();
 
         for (int i = 0; i < numProcesses; i++) {
             // Generate random arrival and burst times for each process
-            int arrival = random.nextInt(100);
-            int burst = random.nextInt(50);
+            arrival = random.nextInt(100);
+            burst = random.nextInt(50);
 
             // Create a new Process and add it to the queue
             Process process = new Process("P" + i, arrival, burst);
@@ -183,27 +188,34 @@ public class lab4 {
         Queue<Process> sortedQueue = new LinkedList<>(processList);
 
         // continue to print queue head until queue is empty
+        System.out.println("\nSort processes in order of arrival time:\n");
         for (Process p : processList) {
             System.out.println(p);
         }
         return sortedQueue;
     }
 
-    // will simulate FCFS
+    /*
+     * First Come First Serve scheduler
+     */
     public static void FCFS(Queue<Process> processQueue) {
-        System.out.println("FCFS:");
+
+        System.out.println(
+        "\n************************************** FIRST COME FIRST SERVE (FCFS) **************************************\n");
+
         int currentTime = processQueue.peek().arrivalTime; // current time starts at 0
-        while(!processQueue.isEmpty()) { // process are already in order of arrival\
+        while(!processQueue.isEmpty()) { // process are already in order of arrival
+
             // get the first process from the queue
             Process currentProcess = processQueue.poll();
-            // for debugging
-            // System.out.println(currentProcess.toString());
+
             // check to see if any processes are still executing
             // if no processes are executing then jump to arrival time
             // of the current process (wait time will be 0)
             if (currentTime < currentProcess.arrivalTime) {
                 currentTime = currentProcess.arrivalTime;
             }
+
             // calculate the process WT and TT
             currentProcess.waitTime = currentTime - currentProcess.arrivalTime;
             currentProcess.termTime = currentTime + currentProcess.burstTime;
@@ -214,12 +226,47 @@ public class lab4 {
             // start execution of next process
             currentTime = currentProcess.termTime;
         }
-
     }
 
-    // will simulate roundrobin
+    /*
+     * Round Robin scheduler
+     */
     public static void roundRobin(Queue<Process> processQueue) {
+        int timeQuantum = 0;
 
+        System.out.println(
+        "\n************************************** ROUND ROBIN **************************************\n");
+
+        Scanner input = new Scanner(System.in);
+
+        System.out.println("\nGive a time slice between 1 and 100 milliseconds:\n");
+        timeQuantum = input.nextInt();
+
+        while(timeQuantum < 1 || timeQuantum > 100){
+            System.out.println("\nPlease enter a valid time slice\n");
+            timeQuantum = input.nextInt();
+        }
+        
+        Queue<Process> queue = new LinkedList<>(processQueue);
+        int currentTime = 0;
+
+        while (!queue.isEmpty()) {
+            Process currentProcess = queue.poll();
+            if (currentProcess.burstTime > timeQuantum) {
+                // Execute the process for the time quantum
+                currentTime += timeQuantum;
+                currentProcess.burstTime -= timeQuantum;
+                // Re-add the process to the end of the queue
+                queue.add(currentProcess);
+            } else {
+                // Execute the remaining burst time
+                currentTime += currentProcess.burstTime;
+                currentProcess.termTime = currentTime - currentProcess.arrivalTime;
+                currentProcess.waitTime = currentProcess.termTime - currentProcess.burstTime;
+            }
+            System.out.println(currentProcess.name + " is executing.\nWait time: " + currentProcess.waitTime + "\nTermination time: " + currentProcess.termTime + "\n");
+        }
+        input.close();
     }
-
 }
+
