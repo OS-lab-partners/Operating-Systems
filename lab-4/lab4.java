@@ -158,15 +158,38 @@ public class lab4 {
         // convert the sorted list back to a queue
         Queue<Process> sortedQueue = new LinkedList<>(processList);
 
-        // continue to print queue head until queue is empty
-        while (!sortedQueue.isEmpty()) {
-            System.out.println(sortedQueue.poll());
-        }
+        // Queue<Process> printQueue = sortedQueue;
+        // // continue to print queue head until queue is empty
+        // while (!printQueue.isEmpty()) {
+        //     System.out.println(printQueue.poll());
+        // }
         return sortedQueue;
     }
 
     //will simulate FCFS
     public static void FCFS(Queue<Process> processQueue) {
+        int currentTime = processQueue.peek().arrivalTime; // current time starts at 0
+        while(!processQueue.isEmpty()) { // process are already in order of arrival\
+            // get the first process from the queue
+            Process currentProcess = processQueue.poll();
+            // for debugging
+            System.out.println(currentProcess.toString());
+            // check to see if any processes are still executing
+            // if no processes are executing then jump to arrival time
+            // of the current process (wait time will be 0)
+            if (currentTime < currentProcess.arrivalTime) {
+                currentTime = currentProcess.arrivalTime;
+            }
+            // calculate the process WT and TT
+            currentProcess.waitTime = currentTime - currentProcess.arrivalTime;
+            currentProcess.termTime = currentTime + currentProcess.burstTime;
+            
+            // print results
+            System.out.println(currentProcess.name + " is executing.\nWait time: " + currentProcess.waitTime + "\nTermination time: " + currentProcess.termTime + "\n");
+
+            // start execution of next process
+            currentTime = currentProcess.termTime;
+        }
 
     }
     
