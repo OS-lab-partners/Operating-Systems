@@ -1,6 +1,11 @@
 // COSC 439-003
 // FCFC and RR scheduling algorithms
 
+// Group Members:
+// Shannon Ioffe
+// Novoa Champion
+// Katherine Lim
+
 import java.util.Queue;
 import java.util.Random;
 import java.util.LinkedList;
@@ -53,11 +58,10 @@ public class lab4 {
         System.out.println("SELECT AN OPTION\n");
         System.out.println("1) Load processes from file");
         System.out.println("2) Enter your own");
-
         choice = input.nextInt();
 
         while (choice < 1 || choice > 2) {
-            System.out.print("\nPlease enter 1 or 2\n");
+            System.out.print("\nPlease enter 1 or 2:\n");
             choice = input.nextInt();
         }
 
@@ -82,9 +86,9 @@ public class lab4 {
         System.out.println("1) First Come First Serve (FCFS)");
         System.out.println("2) Round Robin\n");
     
-        choice = input.nextInt();
+        choice = 0;
         while(choice < 1 || choice > 2){
-            System.out.println("\nPlease enter 1 or 2\n");
+            System.out.print("\nPlease enter 1 or 2:\n");
             choice = input.nextInt();
         }
     
@@ -166,7 +170,7 @@ public class lab4 {
             queue.offer(process);
         }
 
-        input.close();
+        // input.close();
         return queue;
     }
 
@@ -239,7 +243,7 @@ public class lab4 {
 
         Scanner input = new Scanner(System.in);
 
-        System.out.println("\nGive a time slice between 1 and 100 milliseconds:\n");
+        System.out.println("\nGive a time slice between 1 and 100 milliseconds: ");
         timeQuantum = input.nextInt();
 
         while(timeQuantum < 1 || timeQuantum > 100){
