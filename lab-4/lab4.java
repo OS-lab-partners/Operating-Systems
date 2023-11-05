@@ -123,7 +123,7 @@ public class lab4 {
      */
     public static Queue<Process> getUserInput() {
         Scanner input = new Scanner(System.in);
-        System.out.print("How many processes need to be entered (between 0 and 20):");
+        System.out.print("How many processes need to be entered (between 0 and 20): ");
         int numProcesses = 0;
         // int arrival;
         // int burst;
@@ -132,7 +132,7 @@ public class lab4 {
             numProcesses = input.nextInt();
         } else {
             input.next();
-            System.out.println("Invalid input. Please enter a number (between 0 and 20");
+            System.out.println("Invalid input. Please enter a number (between 0 and 20: ");
         }
 
         while (numProcesses < 0 || numProcesses > 20) {
@@ -141,7 +141,7 @@ public class lab4 {
                 numProcesses = input.nextInt();
             } else {
                 input.next();
-                System.out.println("Invalid input. Please enter a number (between 0 and 20:");
+                System.out.println("Invalid input. Please enter a number (between 0 and 20: ");
             }
         }
 
@@ -191,12 +191,13 @@ public class lab4 {
 
     // will simulate FCFS
     public static void FCFS(Queue<Process> processQueue) {
+        System.out.println("FCFS:");
         int currentTime = processQueue.peek().arrivalTime; // current time starts at 0
         while(!processQueue.isEmpty()) { // process are already in order of arrival\
             // get the first process from the queue
             Process currentProcess = processQueue.poll();
             // for debugging
-            System.out.println(currentProcess.toString());
+            // System.out.println(currentProcess.toString());
             // check to see if any processes are still executing
             // if no processes are executing then jump to arrival time
             // of the current process (wait time will be 0)
