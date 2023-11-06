@@ -253,6 +253,7 @@ public class lab4 {
         
             while (!queue.isEmpty()) {
                 Process currentProcess = queue.poll();
+
                 if (currentProcess.burstTime > timeQuantum) {
                     // Execute the process for the time quantum
                     currentTime += timeQuantum;
@@ -273,51 +274,5 @@ public class lab4 {
         
         }
     }
-    
-    // public static void roundRobin(Queue<Process> processQueue) {
-    //     int timeQuantum = 0;
-
-    //     System.out.println(
-    //     "\n************************************** ROUND ROBIN **************************************\n");
-
-    //     Scanner input = new Scanner(System.in);
-
-    //     System.out.println("\nGive a time slice between 1 and 100 milliseconds: \n");
-    //     timeQuantum = input.nextInt();
-
-    //     while(timeQuantum < 1 || timeQuantum > 100){
-    //         System.out.println("\nPlease enter a valid time slice\n");
-    //         timeQuantum = input.nextInt();
-    //     }
-        
-    //     Queue<Process> queue = new LinkedList<>(processQueue);
-    //     int currentTime = 0;
-
-    //     while (!queue.isEmpty()) {
-    //         Process currentProcess = queue.poll();
-    //         if (currentProcess.burstTime > timeQuantum) {
-    //             // Execute the process for the time quantum
-    //             currentTime += timeQuantum;
-    //             currentProcess.burstTime -= timeQuantum;
-    //             // Re-add the process to the end of the queue
-    //             queue.add(currentProcess);
-    //         } else {
-    //             // Execute the remaining burst time
-    //             currentTime += currentProcess.burstTime;
-    //             currentProcess.termTime = currentTime - currentProcess.arrivalTime;
-    //             currentProcess.waitTime = currentProcess.termTime - currentProcess.burstTime;
-    //         }
-    //         System.out.println(currentProcess.name + " is executing. . .");
-    //     }
-
-    //     Queue<Process> queue2 = new LinkedList<>(processQueue);
-
-    //     while (!queue2.isEmpty()) {
-    //         Process currentProcess = queue2.poll();
-    //         System.out.println("\n" + currentProcess.name + "\nWait time: " + currentProcess.waitTime + "\nTermination time: " + currentProcess.termTime + "\n");
-    //     }
-
-    //     input.close();
-    // }
 }
 
