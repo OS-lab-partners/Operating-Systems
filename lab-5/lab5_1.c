@@ -1,5 +1,7 @@
 #include <pthread.h>
 #include <stdio.h>
+#include <unistd.h>  // Add this line for the sleep function
+#include <stdlib.h>  // Add this line for the rand function
 #define BUFF_SIZE 20
 char buffer[BUFF_SIZE];
 int nextIn = 0;
