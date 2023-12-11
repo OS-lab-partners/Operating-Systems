@@ -43,8 +43,6 @@ class Process {
 }
 
 public class lab4 {
-   
-
     public static void main(String args[]) {
 
         System.out.println(
@@ -170,7 +168,7 @@ public class lab4 {
             queue.offer(process);
         }
 
-        // input.close();
+        input.close();
         return queue;
     }
 
@@ -247,32 +245,34 @@ public class lab4 {
         while(timeQuantum < 1 || timeQuantum > 100){
             System.out.println("\nPlease enter a valid time slice\n");
             timeQuantum = input.nextInt();
-        }                
-            Queue<Process> queue = new LinkedList<>(processQueue);
-            int currentTime = 0;
-        
-            while (!queue.isEmpty()) {
-                Process currentProcess = queue.poll();
-
-                if (currentProcess.burstTime > timeQuantum) {
-                    // Execute the process for the time quantum
-                    currentTime += timeQuantum;
-                    currentProcess.burstTime -= timeQuantum;
-                    // Re-add the process to the end of the queue
-                    queue.add(currentProcess);
-                } else {
-                    // Execute the remaining burst time
-                    currentTime += currentProcess.burstTime;
-                    currentProcess.termTime = currentTime;
-                    currentProcess.waitTime = currentProcess.termTime - currentProcess.arrivalTime;
-                }
-                System.out.println(currentProcess.name + " is executing. . .");
-            }
-        
-            for (Process process : processQueue) {
-                System.out.println("\n" + process.name + "\nWait time: " + Math.max(0, process.waitTime) + "\nTermination time: " + process.termTime + "\n");
-        
         }
+
+        Queue<Process> queue = new LinkedList<>(processQueue);
+        int currentTime = 0;
+    
+        while (!queue.isEmpty()) {
+            Process currentProcess = queue.poll();
+
+            if (currentProcess.burstTime > timeQuantum) {
+                // Execute the process for the time quantum
+                currentTime += timeQuantum;
+                currentProcess.burstTime -= timeQuantum;
+                // Re-add the process to the end of the queue
+                queue.add(currentProcess);
+            } else {
+                // Execute the remaining burst time
+                currentTime += currentProcess.burstTime;
+                currentProcess.termTime = currentTime;
+                currentProcess.waitTime = currentProcess.termTime - currentProcess.arrivalTime;
+            }
+            System.out.println(currentProcess.name + " is executing. . .");
+        }
+    
+        for (Process process : processQueue) {
+            System.out.println("\n" + process.name + "\nWait time: " + Math.max(0, process.waitTime) + "\nTermination time: " + process.termTime + "\n");
+        }
+        
+        input.close();
     }
 }
 
